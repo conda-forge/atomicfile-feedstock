@@ -30,7 +30,10 @@ tests:
       imports:
         - atomicfile
       pip_check: false
-      python_version: ${{ python_min }}
+      python_version:
+        - ${{ python_min }}
+        - "*"
+
 about:
   license: MIT
   license_file: LICENSE.rst
