@@ -1,0 +1,54 @@
+schema_version: 1
+
+context:
+  name: atomicfile
+  version: "1.0.1"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/${{ name }}-${{ version }}.tar.gz
+  sha256: 190502c5c0b1145f5c294e0be07a9f029d8ea728a0d0806e0ca466467208763e
+
+build:
+  number: 2
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv
+
+requirements:
+  host:
+    - python ${{ python_min }}.*
+    - pip
+    - setuptools
+  run:
+    - python >=${{ python_min }}
+
+tests:
+  - python:
+      imports:
+        - atomicfile
+      pip_check: false
+      python_version:
+        - ${{ python_min }}
+        - "*"
+
+about:
+  license: MIT
+  license_file: LICENSE.rst
+  summary: Writeable file object that atomically updates a file.
+  description: |
+    Writeable file object that atomically updates a file. All writes will
+    go to a temporary file. Call close() explicitly when you are done
+    writing, and AtomicFile will rename the temporary copy to the original
+    name, making the changes visible. If the object is destroyed without
+    being closed, all your writes are discarded. AtomicFile is friendly
+    to with statement.
+  homepage: https://github.com/sashka/atomicfile-py
+  repository: https://github.com/sashka/atomicfile-py
+  documentation: https://github.com/sashka/atomicfile-py
+
+extra:
+  recipe-maintainers:
+    - jan-janssen
